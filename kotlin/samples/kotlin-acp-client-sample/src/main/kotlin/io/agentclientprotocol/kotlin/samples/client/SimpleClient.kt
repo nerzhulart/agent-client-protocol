@@ -1,7 +1,7 @@
 package io.agentclientprotocol.kotlin.samples.client
 
 import io.agentclientprotocol.kotlin.*
-import io.agentclientprotocol.kotlin.client.ClientInterface
+
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.delay
 import java.io.File
@@ -16,7 +16,7 @@ private val logger = KotlinLogging.logger {}
  * - Permission handling
  * - Session update processing
  */
-class SimpleClient(private val workingDirectory: File = File(".")) : ClientInterface {
+class SimpleClient(private val workingDirectory: File = File(".")) : Client {
     
     override suspend fun readTextFile(request: ReadTextFileRequest): ReadTextFileResponse {
         logger.info { "Reading file: ${request.path}" }

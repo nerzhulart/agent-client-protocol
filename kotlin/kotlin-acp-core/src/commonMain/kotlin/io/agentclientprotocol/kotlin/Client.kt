@@ -1,8 +1,6 @@
 @file:Suppress("unused")
 
-package io.agentclientprotocol.kotlin.client
-
-import io.agentclientprotocol.kotlin.*
+package io.agentclientprotocol.kotlin
 
 /**
  * Interface that clients must implement to handle agent requests.
@@ -10,11 +8,11 @@ import io.agentclientprotocol.kotlin.*
  * This interface defines the contract for client implementations,
  * covering file system operations, permission handling, and session updates.
  *
- * See protocol docs: [Client](https://agentclientprotocol.com/protocol/overview#client)  
+ * See protocol docs: [Client](https://agentclientprotocol.com/protocol/overview#client)
  */
-public interface ClientInterface {
+public interface Client {
     /**
-     * Read content from a text file.
+     * Read content from a text file in the client's file system.
      *
      * Only called if the client advertises the `fs.readTextFile` capability.
      * The client should validate the path and ensure it's within allowed boundaries.
@@ -25,7 +23,7 @@ public interface ClientInterface {
     public suspend fun readTextFile(request: ReadTextFileRequest): ReadTextFileResponse
 
     /**
-     * Write content to a text file.
+     * Write content to a text file in the client's file system.
      *
      * Only called if the client advertises the `fs.writeTextFile` capability.
      * The client should validate the path and ensure it's within allowed boundaries.
@@ -35,7 +33,7 @@ public interface ClientInterface {
     public suspend fun writeTextFile(request: WriteTextFileRequest)
 
     /**
-     * Request permission from the user for a tool call.
+     * Request permission from the user for a tool call operation.
      *
      * The client should present the permission options to the user and return their choice.
      * This is called when the agent needs authorization for potentially sensitive operations.

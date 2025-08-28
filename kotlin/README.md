@@ -64,7 +64,7 @@ dependencies {
 
 ```kotlin
 import io.agentclientprotocol.kotlin.*
-import io.agentclientprotocol.kotlin.agent.*
+import io.agentclientprotocol.kotlin.*
 import io.agentclientprotocol.kotlin.transport.StdioTransport
 
 class MyAgent : Agent {
@@ -105,10 +105,10 @@ connection.connect(transport)
 
 ```kotlin
 import io.agentclientprotocol.kotlin.*
-import io.agentclientprotocol.kotlin.client.*
+import io.agentclientprotocol.kotlin.*
 import io.agentclientprotocol.kotlin.transport.StdioTransport
 
-class MyClient : ClientInterface {
+class MyClient : Client {
     override suspend fun readTextFile(request: ReadTextFileRequest): ReadTextFileResponse {
         val content = File(request.path).readText()
         return ReadTextFileResponse(content)

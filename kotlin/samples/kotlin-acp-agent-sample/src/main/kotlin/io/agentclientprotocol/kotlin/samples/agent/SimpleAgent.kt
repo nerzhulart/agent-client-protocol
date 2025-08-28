@@ -1,8 +1,7 @@
 package io.agentclientprotocol.kotlin.samples.agent
 
 import io.agentclientprotocol.kotlin.*
-import io.agentclientprotocol.kotlin.agent.Agent
-import io.agentclientprotocol.kotlin.agent.Client
+
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.delay
 import java.util.concurrent.ConcurrentHashMap

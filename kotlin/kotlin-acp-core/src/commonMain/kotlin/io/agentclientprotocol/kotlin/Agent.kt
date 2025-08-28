@@ -1,44 +1,43 @@
 @file:Suppress("unused")
 
-package io.agentclientprotocol.kotlin.client
-
-import io.agentclientprotocol.kotlin.*
+package io.agentclientprotocol.kotlin
 
 /**
- * Interface representing an agent connection from the client's perspective.
+ * Interface that agents must implement to handle client requests.
  *
- * This interface provides methods for clients to communicate with agents,
+ * This interface defines the contract for agent implementations,
  * covering the full agent lifecycle from initialization through
  * session management and prompt processing.
  *
  * See protocol docs: [Agent](https://agentclientprotocol.com/protocol/overview#agent)
  */
-public interface AgentInterface {
+public interface Agent {
     /**
      * Initialize the agent with client capabilities and protocol version.
      *
-     * This is the first method called when connecting to an agent.
-     * The client should specify its capabilities and supported protocol version.
+     * This is the first method called when a client connects to the agent.
+     * The agent should validate the protocol version and store client capabilities.
      *
      * See protocol docs: [Initialization](https://agentclientprotocol.com/protocol/initialization)
      */
     public suspend fun initialize(request: InitializeRequest): InitializeResponse
 
     /**
-     * Authenticate with the agent using a specific method.
+     * Authenticate using the specified authentication method.
      *
-     * Called after initialization if the agent requires authentication.
-     * The method ID must be one of those advertised by the agent.
+     * Called when the client wants to authenticate with a specific method
+     * that was advertised in the initialize response.
      *
      * @param request The authentication request containing the method ID
+     * @return null (authentication is just a handshake)
      */
     public suspend fun authenticate(request: AuthenticateRequest)
 
     /**
      * Create a new conversation session.
      *
-     * Sessions allow multiple independent conversations with the same agent.
-     * Each session maintains its own context and history.
+     * Sessions maintain their own context and allow multiple independent
+     * conversations with the same agent.
      *
      * See protocol docs: [Creating a Session](https://agentclientprotocol.com/protocol/session-setup#creating-a-session)
      */
@@ -47,7 +46,7 @@ public interface AgentInterface {
     /**
      * Load an existing conversation session.
      *
-     * Only available if the agent supports the `loadSession` capability.
+     * Only called if the agent advertises the `loadSession` capability.
      * Allows resuming previous conversations.
      *
      * See protocol docs: [Loading Sessions](https://agentclientprotocol.com/protocol/session-setup#loading-sessions)
@@ -55,10 +54,13 @@ public interface AgentInterface {
     public suspend fun loadSession(request: LoadSessionRequest)
 
     /**
-     * Send a user prompt to the agent within a session.
+     * Process a user prompt within a session.
      *
-     * This is the main method for user interactions. The client sends
-     * content blocks and receives real-time updates via session notifications.
+     * This is the main method for handling user interactions. The agent should:
+     * 1. Process the prompt content
+     * 2. Send session updates via the client connection
+     * 3. Execute any necessary tool calls (with permission if needed)
+     * 4. Return a final response with the stop reason
      *
      * See protocol docs: [User Message](https://agentclientprotocol.com/protocol/prompt-turn#1-user-message)
      */
@@ -67,8 +69,8 @@ public interface AgentInterface {
     /**
      * Cancel ongoing operations for a session.
      *
-     * Sends a notification to request cancellation of the current prompt turn.
-     * The agent should stop processing and return a cancelled response.
+     * The client sends this notification to request cancellation of the current
+     * prompt turn. The agent should stop processing and return a cancelled response.
      *
      * See protocol docs: [Cancellation](https://agentclientprotocol.com/protocol/prompt-turn#cancellation)
      */

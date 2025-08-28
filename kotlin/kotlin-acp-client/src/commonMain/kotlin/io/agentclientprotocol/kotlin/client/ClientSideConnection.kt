@@ -20,15 +20,15 @@ private val logger = KotlinLogging.logger {}
  *
  * This class provides the client's view of an ACP connection, allowing
  * clients (such as code editors) to communicate with agents. It implements
- * the {@link AgentInterface} to provide methods for initializing sessions, sending
+ * the {@link Agent} to provide methods for initializing sessions, sending
  * prompts, and managing the agent lifecycle.
  *
  * See protocol docs: [Client](https://agentclientprotocol.com/protocol/overview#client)
  */
 public class ClientSideConnection(
-    private val client: ClientInterface,
+    private val client: Client,
     options: ProtocolOptions = ProtocolOptions()
-) : Protocol(options), AgentInterface {
+) : Protocol(options), Agent {
 
     override suspend fun connect(transport: Transport) {
         super.connect(transport)
