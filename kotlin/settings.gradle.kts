@@ -22,6 +22,7 @@ include(":kotlin-acp-agent")
 include(":kotlin-acp-client")
 include(":kotlin-acp")
 include(":kotlin-acp-test")
+include(":kotlin-acp-junie")
 
 // Include sample projects
 include(":samples:kotlin-acp-agent-sample")
