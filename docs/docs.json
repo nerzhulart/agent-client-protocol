@@ -70,7 +70,8 @@
               "protocol/slash-commands",
               "protocol/extensibility",
               "protocol/transports",
-              "protocol/schema"
+              "protocol/cancellation",
+          "protocol/schema"
             ]
           },
           {
